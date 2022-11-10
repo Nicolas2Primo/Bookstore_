@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 
 function Home() {
@@ -11,9 +12,12 @@ function Home() {
         <span className="text-white text-3xl font-rosarivo  w-[610px] h-[70px] text-center border-b-2">
           SEJA BEM VINDO
         </span>
-        <button className="text-white text-xl bg-[#4A6B7C] px-20 py-3 rounded-lg">
+        <Link
+          to="/livraria"
+          className="text-white text-xl bg-[#4A6B7C] hover:bg-[#456473] px-20 py-3 rounded-lg"
+        >
           Entrar
-        </button>
+        </Link>
       </div>
     </div>
   );
