@@ -6,7 +6,7 @@ import Livraria from "./pages/Livraria";
 function App() {
   return (
     <Router>
-      <div className="pt-20 overflow-x-hidden ">
+      <div className="pt-20 overflow-y-hidden w-screen h-screen  ">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/livraria" element={<Livraria />} />
