@@ -27,7 +27,8 @@ app.post("/avaliacoes", (req, res) => {
 
 /*PEGA OS LIVROS*/
 app.get("/getLivros", (req, res) => {
-  let SQL = "SELECT idLivro, Nome_Livro FROM livro";
+  let SQL =
+    "SELECT idLivro, Nome_Livro, AVG(Nota) AS Média_Nota, COUNT(Nota) AS Quantidade_Nota, Livro_idLivro from livro, avaliação WHERE idLivro = Livro_idLivro GROUP BY Nome_Livro ORDER BY idLivro";
 
   db.query(SQL, (err, result) => {
     if (err) {
