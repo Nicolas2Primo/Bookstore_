@@ -25,7 +25,7 @@ const LivroSwiper = () => {
   return (
     <div className="w-screen h-screen flex items-center justify-center px-[3px] sticky">
       <Swiper
-        className="w-screen h-[100px] text-center"
+        className="w-screen h-[150px] text-center"
         spaceBetween={10}
         slidesPerView={3}
         onSlideChange={() => console.log("slide change")}
@@ -36,9 +36,15 @@ const LivroSwiper = () => {
             <SwiperSlide
               key={livro.idLivro}
               onClick={openModal}
-              className="text-white w-[full] h-[50px] backdrop-blur-sm shadow-inner"
+              className="text-white  h-full backdrop-blur-sm shadow-inner flex flex-col justify-between"
             >
-              {livro.Nome_Livro}
+              <span>{livro.Nome_Livro}</span>
+              <div className="flex flex-col">
+                <span>{`QNT: ${livro.Quantidade_Nota}`}</span>
+                <span className="">{`AVG: ${livro.Média_Nota.toFixed(
+                  2
+                )}`}</span>
+              </div>
             </SwiperSlide>
           ))}
       </Swiper>
