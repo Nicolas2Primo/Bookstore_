@@ -17,10 +17,11 @@ app.use(express.json());
 /*REGISTRO DAS AVALIAÇÕES*/
 app.post("/avaliacoes", (req, res) => {
   const { Nota } = req.body;
+  const { idLivro } = req.body;
 
-  let SQL = "INSERT INTO avaliação (Nota) VALUES (?)";
+  let SQL = "INSERT INTO avaliação (Nota, Livro_idLivro) VALUES (?, ?)";
 
-  db.query(SQL, [Nota], (err, result) => {
+  db.query(SQL, [Nota, idLivro], (err, result) => {
     console.log(err);
   });
 });
@@ -28,7 +29,7 @@ app.post("/avaliacoes", (req, res) => {
 /*PEGA OS LIVROS*/
 app.get("/getLivros", (req, res) => {
   let SQL =
-    "SELECT idLivro, Nome_Livro, AVG(Nota) AS Média_Nota, COUNT(Nota) AS Quantidade_Nota, Livro_idLivro from livro, avaliação WHERE idLivro = Livro_idLivro GROUP BY Nome_Livro ORDER BY idLivro";
+    "SELECT idLivro, Nome_Livro, AVG(Nota) AS Média_Nota, COUNT(Nota) AS Quantidade_Nota, Livro_idLivro, Sinopse from livro, avaliação WHERE idLivro = Livro_idLivro GROUP BY Nome_Livro ORDER BY idLivro";
 
   db.query(SQL, (err, result) => {
     if (err) {
