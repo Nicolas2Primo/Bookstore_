@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import React, { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import ModalLivro from "./ModalLivro";
+
 import Axios from "axios";
 import "swiper/css";
 
@@ -87,13 +88,16 @@ const LivroSwiper = () => {
               })}
               <div className="flex items-center justify-center text-center gap-1">
                 <AiFillStar size={22} className=" text-yellow-400"></AiFillStar>
-                <span className=" font-bold">{`${livro.Média_Nota.toFixed(
-                  2
-                )}`}</span>
+                <span className=" font-bold">{`${
+                  livro.Média_Nota == null
+                    ? "0.00"
+                    : livro.Média_Nota.toFixed(2)
+                }`}</span>
               </div>
             </SwiperSlide>
           ))}
       </Swiper>
+
       <ModalLivro
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
