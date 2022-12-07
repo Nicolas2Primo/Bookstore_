@@ -96,16 +96,16 @@ const ModalLivro = ({ closeModal, modalIsOpen, livroInfo }) => {
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
-        className="w-[200px] h-[300px] rounded-xl bg-[#457975] bg-opacity-80 lg:w-[300px] lg:h-[400px]"
+        className="w-[200px] h-[300px] rounded-xl bg-[#457975] bg-opacity-80 lg:w-[280px] lg:h-[400px]"
       >
-        <SwiperSlide>
+        <SwiperSlide className="hover:cursor-pointer">
           <img
             src={typeof livroInfo !== "undefined" && livroInfo.img}
             alt=""
             className="h-full w-full"
           />
         </SwiperSlide>
-        <SwiperSlide className=" overflow-hidden overflow-y-visible px-4 py-4 text-justify">
+        <SwiperSlide className=" overflow-hidden overflow-y-visible px-4 py-4 text-justify ">
           <h1 className="font-bold text-white text-lg">Sinopse</h1>
           <span className="text-white text-sm">
             {typeof livro !== "undefined" &&
@@ -119,7 +119,7 @@ const ModalLivro = ({ closeModal, modalIsOpen, livroInfo }) => {
               })}
           </span>
         </SwiperSlide>
-        <SwiperSlide className="px-4 pb-4  items-center justify-start flex flex-col overflow-hidden overflow-y-visible text-justify ">
+        <SwiperSlide className="px-4 pb-4  items-center justify-start flex flex-col overflow-hidden overflow-y-visible text-justify  ">
           <div className=" fixed flex flex-col items-center justify-center bg-[#457975] w-full h-[70px] z-10 lg:h-[90px] ">
             <h1 className="text-white font-bold text-lg">Avaliação</h1>
 
