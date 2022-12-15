@@ -17,25 +17,15 @@ app.use(express.json());
 /*INSERÇÃO DAS AVALIAÇÕES*/
 app.post("/insertAvaliacoes", (req, res) => {
   const { Nota } = req.body;
-  const { idLivro } = req.body;
+  const { Livro_idLivro } = req.body;
 
-  let SQL = "INSERT INTO avaliação (Nota, Livro_idLivro) VALUES (?, ?)";
+  let SQL = "INSERT INTO avaliação (Nota, Livro_idLivro) VALUES (?, ?) ";
 
-  db.query(SQL, [Nota, idLivro], (err, result) => {
+  db.query(SQL, [Nota, Livro_idLivro], (err, result) => {
     if (err) console.error(err);
-    else res.send(result);
-  });
-});
-
-app.post("/search", (req, res) => {
-  const { Nota } = req.body;
-  const { idLivro } = req.body;
-
-  let SQL = "SELECT * FROM avaliação WHERE  Nota = ? AND Livro_idLivro = ?";
-
-  db.query(SQL, [Nota, idLivro], (err, result) => {
-    if (err) console.error(err);
-    else res.send(result);
+    else {
+      res.send(result);
+    }
   });
 });
 
@@ -56,7 +46,7 @@ app.get("/getLivros", (req, res) => {
 /*PEGA AS AVALIAÇÕES*/
 app.get("/getAvaliacoes", (req, res) => {
   let SQL =
-    "SELECT idAvaliação, Nota, Livro_idLivro, idLivro, Nome_Livro FROM avaliação, livro  WHERE idLivro = Livro_idLivro AND Nota != 0 ORDER BY Nota DESC";
+    "SELECT * FROM avaliação WHERE Nota <> 'NULL' GROUP BY idAvaliação ORDER BY Nota DESC";
 
   db.query(SQL, (err, result) => {
     if (err) {

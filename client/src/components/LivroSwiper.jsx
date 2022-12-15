@@ -2,15 +2,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import React, { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import ModalLivro from "./ModalLivro";
+import LivroContext from "./LivroContext";
+import { useContext } from "react";
 
 import Axios from "axios";
 import "swiper/css";
 
 const LivroSwiper = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [livros, setLivros] = useState();
-  const [livroInfo, setLivroInfo] = useState();
-
+  const [capaModal, setCapaModal] = useState();
+  const { livro } = useContext(LivroContext);
+  const { sizeScreen } = useContext(LivroContext);
   const capas = [
     `/AliceNoPaísDasMaravilhas.png`,
     "/AnneDeGreenGables.png",
@@ -36,52 +38,51 @@ const LivroSwiper = () => {
 
   const openModal = () => {
     setIsOpen(true);
+    console.log(sizeScreen);
   };
   const closeModal = () => {
     setIsOpen(false);
+
+    document.location.reload();
   };
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/getLivros").then((response) => {
-      setLivros(response.data);
-      console.log(response.data);
-    });
-  }, []);
-
   return (
-    <div className="w-screen h-screen flex items-center justify-center px-[3px] sticky">
+    <div className="w-screen h-screen flex items-center justify-center px-[3px] lg:px-[9px] sticky">
       <Swiper
-        className="w-screen h-[180px] text-center"
+        className={`w-screen h-[180px] text-center sm:h-[220px] lg:h-[360px]  `}
         loop={true}
-        spaceBetween={10}
-        slidesPerView={3}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        spaceBetween={sizeScreen.innerWidth >= 1024 ? 30 : 10}
+        slidesPerView={
+          sizeScreen.innerWidth >= 450 && sizeScreen.innerWidth < 640
+            ? 4
+            : sizeScreen.innerWidth >= 640 && sizeScreen.innerWidth < 1024
+            ? 5
+            : sizeScreen.innerWidth >= 1024
+            ? 6
+            : 3
+        }
       >
-        {typeof livros !== "undefined" &&
-          livros.map((livro, index) => (
+        {typeof livro !== "undefined" &&
+          livro.map((obj, index) => (
             <SwiperSlide
-              key={livro.idLivro}
+              key={obj.idLivro}
               onClick={openModal}
-              className="text-white  h-full backdrop-blur-sm shadow-inner flex flex-col justify-between"
+              className="text-white  h-full backdrop-blur-sm shadow-inner flex flex-col justify-between rounded-2xl hover:cursor-pointer hover:scale-[1.005] "
             >
               {capas.map((capa, index_) => {
                 if (index == index_) {
                   return (
                     <img
                       onClick={() => {
-                        setLivroInfo({
+                        setCapaModal({
                           img: capa,
-                          sinopse: livro.Sinopse,
-                          title: livro.Nome_Livro,
-                          idLivro: livro.idLivro,
-                          qntNota: livro.Quantidade_Nota,
+                          idLivro: obj.idLivro,
                         });
                       }}
                       key={index}
                       src={capa}
                       alt={capa}
-                      className="h-[150px] rounded-xl"
+                      className="h-[150px] rounded-xl sm:h-[190px] lg:h-[330px]  "
                     />
                   );
                 }
@@ -89,9 +90,7 @@ const LivroSwiper = () => {
               <div className="flex items-center justify-center text-center gap-1">
                 <AiFillStar size={22} className=" text-yellow-400"></AiFillStar>
                 <span className=" font-bold">{`${
-                  livro.Média_Nota == null
-                    ? "0.00"
-                    : livro.Média_Nota.toFixed(2)
+                  obj.Média_Nota == null ? "0.00" : obj.Média_Nota.toFixed(2)
                 }`}</span>
               </div>
             </SwiperSlide>
@@ -101,7 +100,7 @@ const LivroSwiper = () => {
       <ModalLivro
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        livro={livroInfo}
+        livroInfo={capaModal}
       ></ModalLivro>
     </div>
   );
